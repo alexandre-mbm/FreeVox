@@ -4,91 +4,102 @@ O objetivo deste documento é fornecer aos leitores informações necessárias p
 
 ## O que é um sistema controlador de versões?
 
-É um sistema que guarda a história de todas as manutenções feitas em um conjunto de arquivos, permitindo que o estado desse conjunto de arquivos possa ser revertido para um outro estado.
-
-Isso significa dizer que o conteúdo do conjunto de arquivos pode ser restaurado para um ponto anterior ao atual.
-
-O sistema controlador de versões mantém registro de todas as atualizações, o que permite que as atualizações possam ser desfeitas. São ainda mantidas pelo sistema informações de quem fez as alterações, bem como a natureza das mesmas.
+É um sistema que guarda a história de todas as manutenções feitas em um conjunto de arquivos, permitindo que o estado desse conjunto de arquivos possa ser revertido para um outro estado. Isso significa dizer que o conteúdo do conjunto de arquivos pode ser restaurado para um ponto anterior ao atual. O sistema controlador de versões mantém registro de todas as atualizações, o que permite que as atualizações possam ser desfeitas. São ainda mantidas pelo sistema informações de quem fez as alterações, bem como a natureza das mesmas.
 
 O conjunto de arquivos e o histórico das manutenções são armazenados e mantidos pelo sistema controlador de versões em uma estrutura de dados chamada repositório.
 
-Existem duas categorias de sistemas de controle de versões: centralizados e distribuidos. Os centralizados armazenam o repositório em uma unica máquina onde todos os usuários se conectam ao mesmo para submeter as alterações. Nos sistemas distribuidos, cada usuário possui uma cópia do repositório e as alterações são submetidas localmente. O usuário pode empurrar essas alterações para repositórios de outros usuarios ou ainda outros usuarios podem puxar essas alterações.
+## Tipos de controlador de versões
+
+Existem duas categorias de sistemas de controle de versões: centralizados e distribuidos.
+
+Os centralizados armazenam o repositório em uma unica máquina, onde todos os usuários se conectam ao mesmo para submeter as alterações.
+
+Nos sistemas distribuidos, cada usuário possui uma cópia do repositório e as alterações são submetidas localmente. O usuário pode empurrar essas alterações para repositórios de outros usuarios, ou ainda outros usuarios podem puxar essas alterações.
 
 Naturalmente as operações de empurrar e puxar alterações precisam de autorização.
 
 O git é um sistema controlador de versões a exemplo do subversion, mas enquanto o subversion está na categoria dos sistemas centralizados, o git está na categoria dos sistemas distribuidos.
 
-Agora que já sabemos o que é um sistema controlador de versões, o que é um repositório e o que  é o git, podemos começar a sujar as mãos. Inicialmente usaremos apenas um repositório local, mas tudo que vamos aprender nessa parte do tutorial poderá ser aplicado quando estivermos utilizando repositórios remotos.
+## Configuração
 
-Lembre-se que tudo que é feito no git é primeiramente feito na cópia local do seu repositório e depois propagado para outros repositórios.
+Agora que já sabemos o que é um sistema controlador de versões, o que é um repositório e o que é o git, podemos começar a sujar as mãos. Inicialmente usaremos apenas um repositório local, mas tudo que vamos aprender nessa parte do tutorial poderá ser aplicado quando estivermos utilizando repositórios remotos.
 
-Os exemplos mostrados neste tutorial são executados em uma máquina com o ubuntu 12.04 instalado, mas devem funcionar sem problemas em ambiente windows ou em ambiente mac. A versão do git utilizada neste tutorial trabalha em modo texto, o que significa dizer que em ambiente windows devemos utilizar o command prompt para executar os comandos do git.
+Lembre-se de que tudo que é feito no git é primeiramente feito na cópia local do seu repositório e depois propagado para outros repositórios.
 
-Para instalar o git na sua máquina windows, voce deve acessar o link http://code.google.com/p/msysgit/ e baixar o arquivo sugerido, ou seja, a versão mais recente do Msys Git que encontrar. O instalador que baixa instalará na sua máquina o Git, e ferramentas básicas dos sistemas Unix, como a shell (prompt de comandos) Bash. Deverá, no menu iniciar em programas, encontrar o Msys e activar o atalho para o Msys. Uma prompt de comandos, parecida com a prompt habitual do Windows será aberta. Todos os comandos do seu windows estarão disponníveis, mais o Git e alguns comandos portados dos ambientes Unix, como Mac ou Linux.
+Os exemplos mostrados neste tutorial são executados em uma máquina com o **Ubuntu 12.04** instalado, mas devem funcionar sem problemas em ambiente Windows ou em ambiente Mac.
 
-Para instalar o Git no Mac, a forma mais simples é usando o instalador disponível em http://code.google.com/p/git-osx-installer/downloads/list?can=3&q=&sort=-uploaded&colspec=Filename+Summary+Uploaded+Size+DownloadCount. Deverá baixar a versão mais recente. E executar o ficheiro .PKG. Em alternativa, se usar um package manager como o homebrew ou macports, poderá utilizar os mesmos para instalar o Git, desde que tenha as ferramentas de desenvolvedor da Apple instaladas.
+### Instalação em Windows
 
-Em ambiente linux derivado da distribuição debian, voce deve executar o seguinte comando:
+git, da maneira que é ensinando neste tutorial, trabalha em modo texto, o que significa dizer que em ambiente Windows seria o caso de utilizar o Prompt de Comando.
+
+Para instalar o git na sua máquina Windows, você deve acessar [git-for-windows.github.io](https://git-for-windows.github.io/) e baixar o arquivo sugerido, na versão mais recente que encontrar. O instalador implantará na sua máquina o git e ferramentas básicas de sistemas Unix, tal como a shell Bash, que é como um Prompt de Comando. Um atalho "Msys" será criado no menu iniciar, dentro da pasta Programas. Todos os comandos do seu Windows estarão disponníveis naquela shell, e mais o git e alguns comandos portados de  ambientes _unix-like_ tais como Mac OS e GNU/Linux.
+
+### Instalação em Mac
+
+Para instalar o git no Mac, a forma mais simples é usando o instalador que é [disponibilizado](http://code.google.com/p/git-osx-installer/downloads/list?can=3&q=&sort=-uploaded&colspec=Filename+Summary+Uploaded+Size+DownloadCount) pelo projeto **git-osx-installer**. Baixe a versão mais recente e execute o arquiv o .PKG.
+
+Opcionalmente você poderá lançar mão de um gerenciador de pacotes tal como o homebrew ou o macports. Poderá utilizá-los para instalar o git com muito mais praticidade, desde que você tenha instaladas as "ferramentas de desenvolvedor" da Apple.
+
+### Instalação em GNU/Linux
+
+Em ambiente GNU/Linux que seja derivado da distribuição Debian, você deverá executar o seguinte comando:
 
 ```sh
 sudo apt-get install git-core
 ```
 
-Em Mac ou Linux (e mesmo em Windows se for suficientemente louco para tal), poderá compilar o Git a partir do código fonte, que pode obter em http://code.google.com/p/git-core/downloads/list.
+### Compilar?
 
-Uma vez instalado o git, vamos verificar se a instalação está ok. Para tal digite o seguinte comando:
+Em Mac ou GNU/Linux, e mesmo em Windows, se você for suficientemente louco para tal, você pode compilar o git. O código fonte você obtém com o projeto [git-core](http://code.google.com/p/git-core/downloads/list).
 
-```sh
-git version
-```
+### Versão do git
 
-O retorno desse comando deve ser parecido com o que se segue:
+Uma vez instalado o git, vamos verificar se a instalação está OK. Para tal, digite o seguinte comando:
 
-```
+```console
+$ git version
 git version 1.7.9.5
 ```
 
-Talvez a versão não seja idêntica a que foi apresentada no exemplo, mas isso não tem muita importância.
+É possível que a versão do git em seu sistema seja da versão apresentada no exemplo acima. Isso não tem muito importância, não deverá ser um problema. Pois os comandos ensinados neste material são simples e rotineiros, provavelmente compatíveis com qualquer versão de git existente.
 
-O próximo passo é informar ao git um nome de usuário e um e-mail. Essas informações serão utilizadas pelo git para identificar o autor das manutenções do conjunto de arquivos contidos no repósitorio. As informações podem ser configuradas a nível global, valendo para todos os repositórios, ou individualmente para cada repositório. Este procedimento é feito executando-se os seguintes comandos:
+### Identidade do usuário
+
+O próximo passo é informar ao git um nome de usuário e um e-mail. Essas informações serão utilizadas pelo git para ele identificar o autor das manutenções que são feitas no conjunto dos arquivos gerenciados. As configurações podem valer globalmente, para todos os repositórios, ou individualmente, para um único repositório.
+
+O procedimento é feito executando-se os seguintes comandos:
 
 ```sh
 git config --global user.name "José Vilmar Estácio de Souza"
 git config --global user.email "vilmar@informal.com.br"
 ```
 
-Observe que o nome do usuário e o e-mail estão entre aspas duplas, e que existem dois hífens antes da palavra global.
+Observe que o nome do usuário e o e-mail estão entre aspas duplas, pois são valores. E que existem dois hífens antes da palavra global, porque ela é uma opção do comando.
 
-Para checar se a configuração está correta, use o seguinte comando:
+Para checar se a configuração está correta, faça como a seguir:
 
-```sh
-git config --list
-```
-
-A resposta do comando deve ser parecida com o seguinte:
-
-```ini
+```console
+$ git config --list
 user.name=José Vilmar Estácio de Souza
 user.email=vilmar@informal.com.br
 ```
 
-A opção `--global` indica que todos os repositórios estão configurados para o mesmo nome de usuário e o mesmo e-mail. Caso você queira ou precise configurar um e-mail e/ou nome de usuário diferente para algum dos seus repositórios, você pode fazer um `cd` para a pasta aonde está o repositório, e executar os comandos de configuração sem a opção `--global`.
+A opção `--global` indica que todos os repositórios estarão configurados para o mesmo nome de usuário e o mesmo e-mail. Caso você queira ou precise configurar um e-mail e/ou nome de usuário diferente para algum de seus repositórios, você pode fazer um `cd` para a pasta do repositório, e executar os comandos de configuração sem a opção `--global`.
+
+## Uso
 
 Agora que já temos o git instalado e configurado, está na hora de criar o nosso primeiro repositório e colocar nele alguns arquivos.
+
+### Clone de repositório local
 
 O repositório pode ser criado fazendo-se um `clone` de um repositório já existente ou então a partir de uma pasta local da máquina do usuário. Se optarmos pela primeira opção, fazer um clone de um repositório já existente, este pode estar na máquina de quem está criando o repositório ou então em uma máquina remota. Vamos começar pela segunda opção: criar o repositório a partir de uma pasta existente na máquina local do usuário.
 
 Crie uma pasta de nome `repo1` e coloque nela dois arquivos chamados `a.txt` e `b.txt`. Os dois arquivos podem conter qualquer conteúdo.
 
-Usando o _command prompt_ mude para essa pasta e execute o seguinte comando:
+Usando a linha de comandos, mude-se para essa pasta e execute o seguinte:
 
-```sh
-git init
-```
-
-A resposta deve ser parecida com o que se segue:
-
-```
+```console
+$ git init
 Initialized empty Git repository in /home/vilmar/repo1/.git/
 ```
 
@@ -96,7 +107,7 @@ Uma coisa a ser notada é que o comando vai criar uma pasta chamada `.git` dentr
 
 Outra coisa que deve ser dita é que o comando `git init` não coloca nenhum arquivo no repositório, apenas o cria. É função do usuário informar ao git quais são os arquivos e pastas que serão incluidos no repositório. O fato de um arquivo estar presente na pasta de um repositório não o inclui automaticamente nesse repositório.
 
-E para complicar um pouco mais, o mesmo vale para as alterações feitas nos arquivos. Suponha que o arquivo `a.txt` já esteja incluido no repositório e que eu decida efetuar uma alteração nesse arquvo. Após essa alteração, eu terei de informar ao git que a alteração deve ser incluida no repositório também.
+Para complicar um pouco mais, o mesmo vale para as alterações feitas nos arquivos. Suponha que o arquivo `a.txt` já esteja incluido no repositório, e que eu decida efetuar uma alteração nesse arquvo. Após essa alteração eu terei de informar ao git que a alteração deve ser incluida no repositório também.
 
 O processo de adicionar arquivos/pastas/alterações ao repositório é feito em duas fases.
 
