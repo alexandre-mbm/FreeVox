@@ -92,9 +92,9 @@ Agora que já temos o git instalado e configurado, está na hora de criar o noss
 
 ### Clone de repositório local
 
-O repositório pode ser criado fazendo-se um `clone` de um repositório já existente ou então a partir de uma pasta local da máquina do usuário. Se optarmos pela primeira opção, fazer um clone de um repositório já existente, este pode estar na máquina de quem está criando o repositório ou então em uma máquina remota. Vamos começar pela segunda opção: criar o repositório a partir de uma pasta existente na máquina local do usuário.
+O repositório pode ser criado fazendo-se um _clone_ de um repositório já existente, ou então a partir de uma pasta local da máquina do usuário. Se optarmos pela primeira opção, fazer um _clone_ de um repositório já existente, este pode estar na máquina de quem está criando o repositório ou em uma máquina remota. Vamos começar pela segunda opção: criar o repositório a partir de uma pasta existente na máquina local do usuário.
 
-Crie uma pasta de nome `repo1` e coloque nela dois arquivos chamados `a.txt` e `b.txt`. Os dois arquivos podem conter qualquer conteúdo.
+Crie uma pasta de nome `repo1` e coloque nela dois arquivos: `a.txt` e `b.txt`. Os dois arquivos podem ter qualquer conteúdo.
 
 Usando a linha de comandos, mude-se para essa pasta e execute o seguinte:
 
@@ -103,13 +103,15 @@ $ git init
 Initialized empty Git repository in /home/vilmar/repo1/.git/
 ```
 
-Uma coisa a ser notada é que o comando vai criar uma pasta chamada `.git` dentro da pasta `repo1`. Essa pasta será utilizada pelo git para armazenar todas as informações relacionadas ao repositório, além das atualizações.
+Uma coisa a ser notada é que o comando vai criar uma pasta chamada `.git` dentro da pasta `repo1`. Essa nova pasta será utilizada pelo git para armazenar todas as informações relacionadas ao repositório, além das atualizações.
 
-Outra coisa que deve ser dita é que o comando `git init` não coloca nenhum arquivo no repositório, apenas o cria. É função do usuário informar ao git quais são os arquivos e pastas que serão incluidos no repositório. O fato de um arquivo estar presente na pasta de um repositório não o inclui automaticamente nesse repositório.
+Outra coisa que deve ser dita é que o comando `git init` não coloca nenhum arquivo no repositório, apenas o cria. É função do usuário informar ao git quais são os arquivos e diretórios que serão incluidos no repositório. O fato de um arquivo estar presente na pasta de um repositório não o inclui automaticamente nesse repositório.
 
 Para complicar um pouco mais, o mesmo vale para as alterações feitas nos arquivos. Suponha que o arquivo `a.txt` já esteja incluido no repositório, e que eu decida efetuar uma alteração nesse arquvo. Após essa alteração eu terei de informar ao git que a alteração deve ser incluida no repositório também.
 
-O processo de adicionar arquivos/pastas/alterações ao repositório é feito em duas fases.
+### Gravando alterações
+
+O processo de adicionar arquivos, pastas e alterações ao repositório é feito em duas fases.
 
 Na primeira fase vamos usar o comando `git add` para marcar as  alterações que serão incluidas no repositório. A essa fase damos o nome de _staging_.
 
@@ -561,7 +563,7 @@ Com base na resposta do comando `git log`, podemos concluir que a atualização 
 
 ## Utilizando branches
 
-O que é um branch?
+### O que é um branch?
 
 Sabemos que o nosso repositório é composto por um conjunto de commits, e que cada um deles representa um certo momento da coleção de arquivos armazenada no repositório. Temos então uma linha de desenvolvimento que vai crescendo à medida que vamos fazendo novos commits. Agora imagine que vamos precisar de duas linhas de desenvolvimento na nossa coleção de arquivos, sem que uma interfira na outra, e sem termos dois repositórios diferentes.
 
@@ -571,10 +573,11 @@ O meu projeto tem dois arquivos, `p1` e `p2`, e é mantido por três usuarios, a
 
 Em um dado momento do desenvolvimento, o usuario "a" descobre que o arquivo `p1` tem uma rotina de nome `r1` que pode ser melhorada, embora ele não tenha certeza. Esse usuário resolve modificar a rotina `r1` mas não pode colocá-la no repositório, para que essas modificações não interfiram no resto do desenvolvimento.
 
-O desenvolvimento dos outros elementos do sistema não pode parar à espera de que o usuário "a" termine as modificações da rotina `r1`. E para complicar mais um pouco, o usuario "a" resolve pedir ajuda ao usuário "b", e para que o usuário "b" possa ajudar o usuário "a", as modificações precisam estar no repositório. Nesse momento vamos precisar de duas linhas de desenvolvimento.
-Uma para as manutenções normais e outra para a manutenção da rotina `r1`, presente no arquivo `p1`.
+O desenvolvimento dos outros elementos do sistema não pode parar à espera de que o usuário "a" termine as modificações da rotina `r1`. E para complicar mais um pouco, o usuario "a" resolve pedir ajuda ao usuário "b", e para que o usuário "b" possa ajudar o usuário "a", as modificações precisam estar no repositório. Nesse momento vamos precisar de duas linhas de desenvolvimento. Uma para as manutenções normais e outra para a manutenção da rotina `r1`, presente no arquivo `p1`.
 
 Vamos utilizar o conceito de branch, que nada mais é do que a criação de uma nova linha para o desenvolvimento.
+
+### Listando e criando branches
 
 Na prática, já trabalhamos por padrão em um branch chamado `master`. Observe a resposta ao comando `git status`:
 
@@ -611,6 +614,8 @@ $ git branch
 
 Repare que agora temos dois branches, um chamado `master` e outro chamado `rotina-r1`. Repare também que o branch chamado `master` é o branch no qual estamos trabalhando. Lembre-se do sinal "*" antes do nome do branch.
 
+### Alternar entre branches
+
 Agora vamos mudar o nosso foco para o branch `rotina-r1`. Isso é feito com o comando `git checkout`.
 
 ```console
@@ -638,6 +643,8 @@ $ git branch
 
 Temos dois branches: `master` e `rotina-r1`. E o branch no qual estamos trabalhando é o `rotina-r1`.
 
+#### Usar o branch, adicionando commits
+
 Agora vamos incluir os arquivos `c.txt` e `d.txt` no branch `rotina-r1`, e depois faremos commit dessas alterações.
 
 Depois de feitas as alterações, executaremos alguns comandos para mostrar como ficou o nosso repositório.
@@ -649,6 +656,8 @@ nothing to commit (working directory clean)
 ```
 
 A resposta do comando acima mostra que estamos no branch `rotina-r1` e que  não existem alterações pendentes.
+
+#### Visualizar histórico de branch
 
 ```console
 $ git log --pretty=oneline -3
@@ -664,8 +673,9 @@ $ ls
 a.txt  b.txt  c.txt  d.txt  nada
 ```
 
-O comando acima não faz parte do git, mas sim do sistema operacional. Ele mostra os arquivos presentes na pasta corrente.
-Temos os seguintes arquivos: `a.txt`, `b.txt`, `c.txt`, `d.txt` e `nada`. São cinco arquivos.
+O comando acima não faz parte do git, mas sim do sistema operacional. Ele mostra os arquivos presentes na pasta corrente. Temos os seguintes arquivos: `a.txt`, `b.txt`, `c.txt`, `d.txt` e `nada`. São cinco arquivos.
+
+#### Fazer "checkouts" e comparar históricos de branches
 
 ```console
 $ git checkout master
@@ -694,7 +704,7 @@ a.txt  b.txt  nada
 
 Repare também na resposta do comando `ls`. Ela mostra que só temos os arquivos `a.txt`, `b.txt` e `nada`. São três arquivos. `c.txt` e `d.txt` só estão presentes no branch `rotina-r1`.
 
-Resumindo:
+#### Resumo
 
 O branch nos permite o desenvolvimento paralelo de duas ou mais versões do nosso sistema. Podemos ter quantos branches quisermos, em nosso repositório. Para criarmos um branch de nome `x` no nosso repositório, usamos o seguinte comando:
 
