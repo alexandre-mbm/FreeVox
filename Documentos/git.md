@@ -2,6 +2,52 @@
 
 O objetivo deste documento é fornecer aos leitores informações necessárias para uso inicial do git. Para melhor compreensão do git, alguns conceitos precisam ser entendidos.
 
+- [O que é um sistema controlador de versões?](#o-que-%25C3%25A9-um-sistema-controlador-de-vers%25C3%25B5es)
+- [Tipos de controlador de versões](#tipos-de-controlador-de-vers%25C3%25B5es)
+- [Configuração](#configura%25C3%25A7%25C3%25A3o)
+  - [Instalação em Windows](#instala%25C3%25A7%25C3%25A3o-em-windows)
+  - [Instalação em Mac](#instala%25C3%25A7%25C3%25A3o-em-mac)
+  - [Instalação em GNU/Linux](#instala%25C3%25A7%25C3%25A3o-em-gnu-linux)
+  - [Compilar?](#compilar)
+  - [Versão do git](#vers%25C3%25A3o-do-git)
+  - [Identidade do usuário](#identidade-do-usu%25C3%25A1rio)
+- [Usando o básico](#usando-o-b%25C3%25A1sico)
+  - [Clone de repositório local](#clone-de-reposit%25C3%25B3rio-local)
+  - [Gravando alterações](#gravando-altera%25C3%25A7%25C3%25B5es)
+    - [Exemplo 1 ‒ começar a versionar](#exemplo-1-%25E2%2580%2592-come%25C3%25A7ar-a-versionar)
+      - [O comando `git status`](#o-comando-git-status)
+      - [O comando `git add`](#o-comando-git-add)
+      - [O comando `git commit`](#o-comando-git-commit)
+      - [O comando `git status` após o commit](#o-comando-git-status-ap%25C3%25B3s-o-commit)
+    - [Exemplo 2 ‒ realizar alterações, adicionano versões](#exemplo-2-%25E2%2580%2592-realizar-altera%25C3%25A7%25C3%25B5es-adicionano-vers%25C3%25B5es)
+      - [O comando `git status` para saber o que será gravado](#o-comando-git-status-para-saber-o-que-ser%25C3%25A1-gravado)
+      - [O comando `git status` ainda, para saber o que NÃO será gravado](#o-comando-git-status-ainda-para-saber-o-que-n%25C3%25A3o-ser%25C3%25A1-gravado)
+      - [O comando `git commit -a` fazendo "add" geral de alterações](#o-comando-git-commit-a-fazendo-add-geral-de-altera%25C3%25A7%25C3%25B5es)
+  - [Repositório local _vs._ remoto](#reposit%25C3%25B3rio-local-vs-remoto)
+    - [Exemplo 3 ‒ sobre gerenciar as linhas de trabalho](#exemplo-3-%25E2%2580%2592-sobre-gerenciar-as-linhas-de-trabalho)
+      - [O comando `git log` mostra o histórico de commits](#o-comando-git-log-mostra-o-hist%25C3%25B3rico-de-commits)
+      - [Lembrem-se: cada autor é identificado!](#lembrem-se-cada-autor-%25C3%25A9-identificado)
+      - [O comando `git log` nos é mais útil gravado em arquivo](#o-comando-git-log-nos-%25C3%25A9-mais-%25C3%25BAtil-gravado-em-arquivo)
+      - [O comando `git log` com menos verbosidade](#o-comando-git-log-com-menos-verbosidade)
+      - [O comando `git log` incluindo "diff"](#o-comando-git-log-incluindo-diff)
+  - [Criando repositório a partir de um já existente](#criando-reposit%25C3%25B3rio-a-partir-de-um-j%25C3%25A1-existente)
+    - [Exemplo 4 ‒ clone de repositório local](#exemplo-4-%25E2%2580%2592-clone-de-reposit%25C3%25B3rio-local)
+    - [Exemplo 5 ‒ clone de repositório remoto](#exemplo-5-%25E2%2580%2592-clone-de-reposit%25C3%25B3rio-remoto)
+    - [Exemplo 6 ‒ sincronia entre repositórios](#exemplo-6-%25E2%2580%2592-sincronia-entre-reposit%25C3%25B3rios)
+      - [O comando `git log` formatado para a inspeção dos históricos](#o-comando-git-log-formatado-para-a-inspe%25C3%25A7%25C3%25A3o-dos-hist%25C3%25B3ricos)
+      - [O comando `git push` para "empurrar" commit para histórico de destino](#o-comando-git-push-para-empurrar-commit-para-hist%25C3%25B3rico-de-destino)
+      - [O comando `git pull` para "puxar" commit para histórico de destino](#o-comando-git-pull-para-puxar-commit-para-hist%25C3%25B3rico-de-destino)
+      - [O comando `git log` para confirmar que a sincronia está feita](#o-comando-git-log-para-confirmar-que-a-sincronia-est%25C3%25A1-feita)
+- [Utilizando branches](#utilizando-branches)
+  - [O que é um branch?](#o-que-%25C3%25A9-um-branch)
+  - [Listando e criando branches](#listando-e-criando-branches)
+  - [Alternar entre branches](#alternar-entre-branches)
+    - [Usar o branch, adicionando commits](#usar-o-branch-adicionando-commits)
+    - [Visualizar histórico de branch](#visualizar-hist%25C3%25B3rico-de-branch)
+    - [Fazer "checkouts" e comparar históricos de branches](#fazer-checkouts-e-comparar-hist%25C3%25B3ricos-de-branches)
+  - [Resumo](#resumo)
+
+
 ## O que é um sistema controlador de versões?
 
 É um sistema que guarda a história de todas as manutenções feitas em um conjunto de arquivos, permitindo que o estado desse conjunto de arquivos possa ser revertido para um outro estado. Isso significa dizer que o conteúdo do conjunto de arquivos pode ser restaurado para um ponto anterior ao atual. O sistema controlador de versões mantém registro de todas as atualizações, o que permite que as atualizações possam ser desfeitas. São ainda mantidas pelo sistema informações de quem fez as alterações, bem como a natureza das mesmas.
@@ -86,7 +132,7 @@ user.email=vilmar@informal.com.br
 
 A opção `--global` indica que todos os repositórios estarão configurados para o mesmo nome de usuário e o mesmo e-mail. Caso você queira ou precise configurar um e-mail e/ou nome de usuário diferente para algum de seus repositórios, você pode fazer um `cd` para a pasta do repositório, e executar os comandos de configuração sem a opção `--global`.
 
-## Uso
+## Usando o básico
 
 Agora que já temos o git instalado e configurado, está na hora de criar o nosso primeiro repositório e colocar nele alguns arquivos.
 
@@ -125,21 +171,25 @@ A segunda área é chamada de _index_ e contém uma fotografia de todos os arqui
 
 A terceira é a área que guarda os commits feitos no repositório.
 
+#### Exemplo 1 ‒ começar a versionar
+
 Vamos a um exemplo prático utilizando o repositório criado anteriormente.  Lembrando que os comandos devem ser executados no prompt de comandos.
+
+##### O comando `git status`
 
 Inicialmente vamos perguntar ao git qual é a situação atual, e para tal vamos utilizar o comando `git status`:
 
 ```console
 Git status
-# On branch master 
-# 
-# Initial commit 
-# 
-# Untracked files: 
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
 #   (use "git add <file>..." to include in what will be committed) 
-# 
-#	a.txt 
-#	b.txt 
+#
+#	a.txt
+#	b.txt
 nothing added to commit but untracked files present (use "git add" to track) 
 ```
 
@@ -164,6 +214,8 @@ Esta linha nos informa que devemos utilizar o comando `git add` para que essas m
 
 As duas linhas anteriores informam quais são os arquivos modificados e que ainda não foram incluidos no próximo commit.
 
+##### O comando `git add`
+
 Podemos então usar o comando `git add a.txt b.txt` para incluir os dois arquivos. Se apenas quisermos incluir as modificações feitas no arquivo `a.txt`, usamos o comando `git add a.txt`.
 
 Uma forma rápida de incluir todas as modificações é usar o comando `git add .`. Mas é preciso ter cuidado, pois você pode acabar incluindo mais do que deseja. Para evitar inclusões indesejadas especifique os arquivos no comando.
@@ -171,25 +223,29 @@ Uma forma rápida de incluir todas as modificações é usar o comando `git add 
 ```console
 $ git add a.txt b.txt
 Git status
-# On branch master 
-# 
-# Initial commit 
-# 
-# Changes to be committed: 
-#   (use "git rm --cached <file>..." to unstage) 
-# 
-#	new file:   a.txt 
-#	new file:   b.txt 
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   a.txt
+#	new file:   b.txt
 #
 ```
 
 Repare na resposta dada pelo comando `git status` após o comando `git add`:
 
 ```
-# Changes to be committed: 
+# Changes to be committed:
 ```
 
-A resposta nos informa que existem alterações que devem ser aplicadas no repositório. "Changes to be committed:". Na prática, as alterações estão na área chamada de _index_. O próximo passo é fazer o commit dessas alterações, e para tal, vamos utilizar o comando `git commit`:
+A resposta nos informa que existem alterações que devem ser aplicadas no repositório. "Changes to be committed:". Na prática, as alterações estão na área chamada de _index_.
+
+##### O comando `git commit`
+
+O próximo passo é fazer o commit dessas alterações, e para tal, vamos utilizar o comando `git commit`:
 
 ```sh
 git commit -m "primeiro commit"
@@ -202,10 +258,10 @@ Caso a opção `-m` não seja utilizada, o git vai invocar um editor de texto pa
 A resposta do comando `git commit` é parecida com o que se segue:
 
 ```
-[master (root-commit) bc75312] primeiro commit 
- 0 files changed 
- create mode 100644 a.txt 
- create mode 100644 b.txt 
+[master (root-commit) bc75312] primeiro commit
+ 0 files changed
+ create mode 100644 a.txt
+ create mode 100644 b.txt
 ```
 
 Vamos analisar a resposta linha linha.
@@ -215,42 +271,48 @@ Vamos analisar a resposta linha linha.
 bc75312 é o identificador do commit.
 ```
 
-Para quem conhece o subversion, esse identificador é equivalente ao número da revisão. Ele é um Sha1 gerado a partir do conteúdo do commit e utiliza 40 dígitos hexadecimais para representar, embora a mensagem só tenha mostrado 7 digitos. Mais adiante veremos na prática para que servem esses identificadores.
+Para quem conhece o subversion, esse identificador é equivalente ao número da revisão. Ele é um SHA1 gerado a partir do conteúdo do commit e utiliza 40 dígitos hexadecimais para representar, embora a mensagem só tenha mostrado 7 digitos. Mais adiante veremos na prática para que servem esses identificadores.
 
 ```
  0 files changed
  create mode 100644 a.txt
- create mode 100644 b.txt 
+ create mode 100644 b.txt
 ```
 
 As três linhas anteriores nos informam que nenhum arquivo foi alterado e que dois arquivos foram criados.
+
+##### O comando `git status` após o commit
 
 Veja a resposta do comando `git status` após o commit:
 
 ```console
 $ git status
 
-# On branch master 
-nothing to commit (working directory clean) 
+# On branch master
+nothing to commit (working directory clean)
 ```
 
 A área está limpa e não existe nenhum commit para ser feito. Todas as alterações estão no repositório e não existem alterações pendentes.
+
+#### Exemplo 2 ‒ realizar alterações, adicionano versões
 
 Vamos agora alterar o conteúdo do arquivo `a.txt` para começar o processo de uma nova modificação. Incluirei nesse arquivo uma nova linha. Veja a resposta do comando `git status` após essa modificação:
 
 ```
 Git status
-# On branch master 
-# Changes not staged for commit: 
+# On branch master
+# Changes not staged for commit:
 #   (use "git add <file>..." to update what will be committed) 
 #   (use "git checkout -- <file>..." to discard changes in working directory) 
-# 
-#	modified:   a.txt 
+#
+#	modified:   a.txt
 #
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
 Olhando para a resposta, podemos notar que o git nos informa a existência de alterações ainda não marcadas para entrarem no próximo commit. As alterações estão presentes na nossa _working tree_.
+
+##### O comando `git status` para saber o que será gravado
 
 Vamos fazer o que o git nos sugere: adicionar essas alterações para que elas entrem no próximo commit.
 
@@ -258,76 +320,86 @@ Vamos fazer o que o git nos sugere: adicionar essas alterações para que elas e
 $ git add a.txt
 $ git status
 
-# On branch master 
-# Changes to be committed: 
-#   (use "git reset HEAD <file>..." to unstage) 
-# 
-#	modified:   a.txt 
-# 
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   a.txt
+#
 ```
 
 A resposta nos mostra que existem alterações que devem ser efetivadas no próximo commit e que o arquivo modificado é o `a.txt`. As alterações estão na área chamada de _index_.
 
 Existem outras informações importantes que veremos mais adiante.
 
+##### O comando `git status` ainda, para saber o que NÃO será gravado
+
 Vamos agora ver o que acontece se alterarmos o arquivo `b.txt` antes de fazer o commit das alterações feitas no arquivo `a.txt`. Como sempre, o comando `git status` será o nosso amigo:
 
 ```console
 $ git status
-# On branch master 
-# Changes to be committed: 
-#   (use "git reset HEAD <file>..." to unstage) 
-# 
-#	modified:   a.txt 
-# 
-# Changes not staged for commit: 
-#   (use "git add <file>..." to update what will be committed) 
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   a.txt
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
 #   (use "git checkout -- <file>..." to discard changes in working directory) 
-# 
-#	modified:   b.txt 
-# 
+#
+#	modified:   b.txt
+#
 ```
 
 Vamos dividir a resposta em duas partes:
 
 ```
-# Changes to be committed: 
-#   (use "git reset HEAD <file>..." to unstage) 
-# 
-#	modified:   a.txt 
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   a.txt
 ```
 
 Existem alterações esperando por um commit e o arquivo em questão é o `a.txt`. Essas alterações estão presentes na área chamada de _index_.
 
 ```
-# Changes not staged for commit: 
-#   (use "git add <file>..." to update what will be committed) 
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
 #   (use "git checkout -- <file>..." to discard changes in working directory) 
-# 
-#	modified:   b.txt 
-# 
+#
+#	modified:   b.txt
+#
 ```
 
-Existem alterações que ainda não foram marcadas para um commit e o arquivo em questão é o `b.txt`. Essas alterações estão na nossa _working tree_. Tudo isto para dizer que, se executarmos o comando `git commit` nesse momento, apenas as alterações feitas no arquivo `a.txt` serão efetivadas, visto que o commit transfere para o repositório apenas as alterações que estão na área _index_.
+Existem alterações que ainda não foram marcadas para um commit e o arquivo em questão é o `b.txt`. Essas alterações estão na nossa _working tree_.
 
-Recapitulando:
+Tudo isto para dizer que, se executarmos o comando `git commit` nesse momento, apenas as alterações feitas no arquivo `a.txt` serão efetivadas, visto que o commit transfere para o repositório apenas as alterações que estão na área _index_.
+
+**Recapitulando:**
 
 Para que as alterações feitas sejam colocadas no repositório, precisamos executar dois passos.
 
-1. Informar ao git as alterações a serem consideradas no próximo commit. Usamos para tal o comando `git add`.
+1. Informar ao git as alterações a serem consideradas no próximo commit.    Usamos para tal o comando `git add`.
 2. Informar ao git que o commit deve ser feito. Usamos para tal o comando `git commit`.
+
+##### O comando `git commit -a` fazendo "add" geral de alterações
 
 Uma coisa que não foi dita antes, mas que pode ser dita agora, é que existe um atalho para executarmos os dois passos com um unico comando. Basta que se inclua no comando `git commit` a opção `-a`. O comando ficaria da seguinte forma:
 
 ```console
 $ git commit -a -m "alterações no arquivo a.txt e b.txt"
-[master 6f2d250] alterações no arquivo a.txt e b.txt 
- 2 files changed, 3 insertions(+) 
+[master 6f2d250] alterações no arquivo a.txt e b.txt
+ 2 files changed, 3 insertions(+)
 ```
+
+### Repositório local _vs._ remoto
 
 É sempre bom lembrar que um copo vazio está cheio de ar, e que os commits feitos estão apenas no repositório do usuário. O que significa dizer que outros usuários ainda não tem acesso a essas modificações. Mas, conforme já dito, é possível propagar essas modificações para outros usuários, o que será visto mais adiante.
 
-O próximo passo é aprender a identificar o que foi modificado e por quem. Lembre-se que desde que devidamente autorizado, o seu repositório pode ser alterado a partir de outros repositórios da mesma forma que o seu repositório também pode alterar outros repositórios. Além do mais, você vai fazer tantas alterações no seu repositório que em pouco tempo vai se esquecer do que foi feito. Por essas e por outras é muito importante que você documente muito bem o que faz.
+O próximo passo é aprender a identificar o que foi modificado e por quem. Lembre-se que desde que devidamente autorizado, o seu repositório pode ser alterado a partir de outros repositórios da mesma forma que o seu repositório também pode alterar outros repositórios. Isso é feita de forma distribuída, "desconectada" e indepentemente. Todos os colaboradores de projeto versionado em Git tem suas cópias locais, seus históricos locais, que depois são unidos ou mesclados em respositório(s) remoto(s). Você vai fazer tantas alterações no seu repositório que em pouco tempo vai se esquecer do que foi feito. Por essas e por outras é muito importante que você documente muito bem o que faz, no histórico de seu branch de trabalho.
+
+#### Exemplo 3 ‒ sobre gerenciar as linhas de trabalho
 
 Um outro ponto fundamental é que você não misture as modificações. Supondo que a sua aplicação tem dois erros para serem corrigidos, tente proceder da seguinte maneira:
 
@@ -336,25 +408,31 @@ Um outro ponto fundamental é que você não misture as modificações. Supondo 
 
 Evite, se possível, colocar as duas correções em um único commit.
 
+Se você não está exatamente corrigindo erros mas, invés disso, adicionado coisa, melhorando, tente trabalhar cada assunto em branches (ramos) separados. [Nós ainda aprenderemos sobre branches](#utilizando-branches).
+
+##### O comando `git log` mostra o histórico de commits
+
 O comando que nos mostra quem alterou e a documentação das alterações, é o comando `git log`:
 
 ```console
 $ git log
 
-commit 6f2d25013af746c5bc062b29e4883ff034c29e6c 
-Author: José Vilmar Estácio de Souza <vilmar@informal.com.br> 
-Date:   Sat Jul 28 21:09:41 2012 -0300 
+commit 6f2d25013af746c5bc062b29e4883ff034c29e6c
+Author: José Vilmar Estácio de Souza <vilmar@informal.com.br>
+Date:   Sat Jul 28 21:09:41 2012 -0300
 
-    alterações no arquivo a.txt e b.txt 
+    alterações no arquivo a.txt e b.txt
 
-commit bc75312a17b9c726435740f4aa493017601491db 
-Author: José Vilmar Estácio de Souza <vilmar@informal.com.br> 
-Date:   Sat Jul 28 19:15:26 2012 -0300 
+commit bc75312a17b9c726435740f4aa493017601491db
+Author: José Vilmar Estácio de Souza <vilmar@informal.com.br>
+Date:   Sat Jul 28 19:15:26 2012 -0300
 
-    primeiro commit 
+    primeiro commit
 ```
 
 Olhando para essa resposta identificamos que dois commits foram feitos. Conseguimos identificar também o autor dos commits. Identificamos ainda as datas em que os commits foram feitos e um texto que descreve a natureza das alterações. Podemos observar também que cada commit possui um identificador, que é formado por 40 digitos hexa-decimais, algarismos de 0 a 9 e letras de A a F.
+
+##### Lembrem-se: cada autor é identificado!
 
 Uma pergunta que pode estar passando pela cabeça de quem está lendo esse texto é a seguinte:
 
@@ -367,7 +445,9 @@ git config --global user.name "José Vilmar Estácio de Souza"
 git config --global user.email "vilmar@informal.com.br"
 ```
 
-Lembram-se desses comandos?
+[Lembram-se desses comandos?](#identidade-do-usu%25C3%25A1rio)
+
+##### O comando `git log` nos é mais útil gravado em arquivo
 
 A saída do comando `git log` é um tanto verbosa. Você ouvirá, do último para o primeiro commit, a lista das últimas alterações. Se a alteração que lhe interessa não estiver no topo, é mais provável que prefira ler o log em um arquivo de texto. Neste caso, poderá redirecionar a saída para um arquivo deste modo:
 
@@ -379,7 +459,13 @@ Nesse caso será gerado um arquivo `git.log` com toda a saída do comando. Isto 
 
 Um problema que voce pode ter, é que se voce gerar o arquivo `git.log` dentro da pasta `repo1`, pasta aonde reside o repositório, o git vai te informar que o arquivo `git.log` ainda não foi marcado para fazer parte do próximo commit. Isto acontece porque o arquivo `git.log` agora faz parte da sua _working tree_. Então, se voce usar o comando `git add .` para adicionar todos os arquivos da _working tree_ à área _index_, o arquivo `git.log` será adicionado indevidamente.
 
-Mais adiante veremos que é possível configurar o git para que ele ignore certos arquivos. Poderemos informar ao git, por exemplo, que o arquivo chamado `git.log` nunca será incluido no repositório. Podemos ainda diminuir o tamanho da saída do comando `git log` usando a opção `--pretty=oneline`.
+Mais adiante veremos que é possível configurar o git para que ele ignore certos arquivos. Poderemos informar ao git, por exemplo, que o arquivo chamado `git.log` nunca será incluido no repositório. 
+
+##### O comando `git log` com menos verbosidade
+
+Podemos ainda diminuir o tamanho da saída do comando `git log` usando a opção `--pretty=oneline`.
+
+##### O comando `git log` incluindo "diff"
 
 O comando `git log` tem ainda a opção `-p`, que é bastante interessante. A opção mostra o que foi alterado dentro dos arquivos que fazem parte do commit. Atualmente o arquivo `a.txt` possui apenas uma linha com o seguinte conteudo:
 
@@ -387,62 +473,64 @@ O comando `git log` tem ainda a opção `-p`, que é bastante interessante. A op
 linha 1
 ```
 
-Vou alterar esse arquivo colocando um "." no final da primeira linha e acrescentar uma segunda linha. A opção -1 limita a quantidade de commits a ser mostrada:
+Vou alterar esse arquivo colocando um "." no final da primeira linha e acrescentar uma segunda linha. A opção `-1` limita a quantidade de commits a ser mostrada:
 
 ```console
 $git log -p -1
 
-commit e537dc86b66f7ab267597f043ddbb4e0d2c0e0b8 
-Author: José Vilmar Estácio de Souza <vilmar@informal.com.br> 
-Date:   Sun Jul 29 10:03:55 2012 -0300 
+commit e537dc86b66f7ab267597f043ddbb4e0d2c0e0b8
+Author: José Vilmar Estácio de Souza <vilmar@informal.com.br>
+Date:   Sun Jul 29 10:03:55 2012 -0300
 
-    alteracoes feitas para demonstrar o comando git log com a opcao -p 
+    alteracoes feitas para demonstrar o comando git log com a opcao -p
 
-diff --git a/a.txt b/a.txt 
-index 76b34f2..e459484 100644 
---- a/a.txt 
-+++ b/a.txt 
-@@ -1,2 +1,3 @@ 
--linha 1 
-+linha 1. 
-+linha 2 
+diff --git a/a.txt b/a.txt
+index 76b34f2..e459484 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,3 @@
+-linha 1
++linha 1.
++linha 2
 ```
 
 O que temos de novo nessa resposta está a partir das seguintes linhas:
 
 ```diff
-diff --git a/a.txt b/a.txt 
-index 76b34f2..e459484 100644 
---- a/a.txt 
-+++ b/a.txt 
-@@ -1,2 +1,3 @@ 
--linha 1 
-+linha 1. 
-+linha 2 
+diff --git a/a.txt b/a.txt
+index 76b34f2..e459484 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,3 @@
+-linha 1
++linha 1.
++linha 2
 ```
 
 Serão mostradas as diferenças introduzidas no último commit, em relação ao anterior.
 
 ```diff
--linha 1 
+-linha 1
 ```
 Informa que essa linha foi removida.
 
 ```diff
-+linha 1. 
++linha 1.
 ```
 Informa que essa linha foi incluida.
 
 ```diff
-+linha 2 
++linha 2
 ```
 Informa que essa linha foi incluida.
 
-Criando um repositório a partir de um repositório já existente.
+### Criando repositório a partir de um já existente
 
 Até agora aprendemos a criar um repositório a partir de uma pasta existente na nossa máquina local, usando o comando `git init`.
 
 A outra forma de se criar um repositório é fazer um clone de um repositório já existente, não importando se o repositório já existente está na máquina local do usuário ou em uma outra máquina qualquer. O comando que utilizaremos para tal é o `git clone`.
+
+#### Exemplo 4 ‒ clone de repositório local
 
 Para começar, vamos fazer um clone do repositório `repo1` criado previamente.
 
@@ -462,6 +550,8 @@ done.
 
 Dentro da pasta `clone` deve ser criada uma pasta chamada `repo1`, e acredite, é uma cópia do repositório `repo1` criado anteriormente. Para confirmar, faça um `cd` para a pasta `repo1` que está dentro da pasta `clone` e execute o comando `git log`. Depois faça um `cd` para a pasta `repo1` criada anteriormente e também execute o comando `git log`. Compare os dois resultados e verifique que eles são iguais.
 
+#### Exemplo 5 ‒ clone de repositório remoto
+
 Se o repositório a ser clonado estiver em outra máquina que não a sua máquina local, o processo de clone é o mesmo. O que muda é que vamos substituir no comando `git clone` o nome da pasta aonde está o repositório a ser clonado, por uma URL. Para dar um exemplo prático, vamos fazer um clone do repositório Freevox dentro da pasta clone criada anteriormente.
 
 ```console
@@ -478,6 +568,8 @@ A exemplo do que aconteceu anteriormente,voce vai encontrar dentro da pasta `clo
 
 Agora que aprendemos a fazer clones de um repositório, vamos aprender a atualizar o clone a partir do clonado e vice-versa.
 
+#### Exemplo 6 ‒ sincronia entre repositórios
+
 Ao processo de atualização de um clone a partir de um clonado vamos dar o nome de _**pull**_. E ao processo de atulização de um clonado a partir de um clone daremos o nome de _**push**_.
 
 Para ajudar na compreensão do processo, criei na minha máquina dois clones do repositório FreeVox. O primeiro reside na pasta `/data/software/freevox/FreeVox`, e o outro reside na pasta `/home/vilmar/clone/Freevox`.
@@ -491,6 +583,8 @@ cd /data/software/freevox/FreeVox
 ```
 
 É importante dizer que esse comando não pertence ao git, mas sim ao Linux aonde estou simulando o exemplo.
+
+##### O comando `git log` formatado para a inspeção dos históricos
 
 Agora vou pedir ao git que me mostre os três ultimos commits feitos no repositório. Usarei a opção `--pretty` para diminuir o tamanho da resposta.
 
@@ -514,19 +608,25 @@ a791e320acd452768fa77ddafdd4219f1578b29a Adicionando  2 patterns-amend[m
 
 Analisando as duas respostas com atenção, vamos notar que o primeiro commit da primeira resposta não é igual ao primeiro commit da segunda resposta. Notaremos também que o segundo commit da primeira resposta é igual ao primeiro commit da segunda resposta, o que nos mostra que falta um commit no segundo clone.
 
+##### O comando `git push` para "empurrar" commit para histórico de destino
+
 Para que o commit faltante esteja presente no segundo clone, precisaremos executar dois passos:
 1. A partir do primeiro clone, colocar o commit faltante no repositório central do FreeVox.
-2. A partir do segundo clone, puxar o commit faltante. Executaremos a seguinte sequência de comandos:
+2. A partir do segundo clone, puxar o commit faltante.
+
+Executaremos a seguinte sequência de comandos:
 ```console
 $ cd /data/software/freevox/FreeVox/
 $ git push
 Username for 'https://github.com': jvesouza
-Password for 'https://jvesouza@github.com': 
+Password for 'https://jvesouza@github.com':
 To https://github.com/magoolation/FreeVox
    64bbbe7..2238e61  master -> master
 ```
 
 O comando `git push` é responsável por transferir commits presentes no repositório local para o repositório remoto. O comando naturalmente só vai transferir os commits que ainda não estão presentes no central. Após a execução do comando, foram solicitados um login e uma senha.
+
+##### O comando `git pull` para "puxar" commit para histórico de destino
 
 Uma vez que os commits estão presentes no repositório remoto, posso instruir ao segundo clone que puxe esses commits.
 
@@ -537,10 +637,10 @@ remote: Counting objects: 7, done.[K
 remote: Compressing objects: 100% (1/1)   [K
 remote: Compressing objects: 100% (1/1), done.[K
 remote: Total 4 (delta 2), reused 4 (delta 2)[K
-Unpacking objects:  25% (1/4)   
-Unpacking objects:  50% (2/4)   
-Unpacking objects:  75% (3/4)   
-Unpacking objects: 100% (4/4)   
+Unpacking objects:  25% (1/4)
+Unpacking objects:  50% (2/4)
+Unpacking objects:  75% (3/4)
+Unpacking objects: 100% (4/4)
 Unpacking objects: 100% (4/4), done.
 From https://github.com/magoolation/FreeVox
    64bbbe7..2238e61  master     -> origin/master
@@ -549,6 +649,8 @@ Fast-forward
  Documentos/git.txt |   22 ++++++++++++----------
  1 file changed, 12 insertions(+), 10 deletions(-)
 ```
+
+##### O comando `git log` para confirmar que a sincronia está feita
 
 Posso executar o comando `git log` para verificar que todas as alterações estão presentes no segundo clone.
 
@@ -704,9 +806,11 @@ a.txt  b.txt  nada
 
 Repare também na resposta do comando `ls`. Ela mostra que só temos os arquivos `a.txt`, `b.txt` e `nada`. São três arquivos. `c.txt` e `d.txt` só estão presentes no branch `rotina-r1`.
 
-#### Resumo
+### Resumo
 
-O branch nos permite o desenvolvimento paralelo de duas ou mais versões do nosso sistema. Podemos ter quantos branches quisermos, em nosso repositório. Para criarmos um branch de nome `x` no nosso repositório, usamos o seguinte comando:
+O branch nos permite o desenvolvimento paralelo de duas ou mais versões do nosso sistema. Podemos ter quantos branches quisermos, em nosso repositório.
+
+Para criarmos um branch de nome `x` no nosso repositório, usamos o seguinte comando:
 
 ```sh
 git branch x
@@ -722,4 +826,10 @@ Para mudarmos o foco para o branch `x`, usamos o seguinte comando:
 
 ```sh
 git checkout x
+```
+
+Para mudarmos o foco para um novo branch `x`a partir do atual, usamos o seguinte comando:
+
+```sh
+git checkout -b x
 ```
